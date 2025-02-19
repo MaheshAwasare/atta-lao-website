@@ -37,20 +37,7 @@ const Footer = () => {
               <li><a href="#" className="text-gray-400 hover:text-white">Refund Policy</a></li>
             </ul>
           </div>
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Newsletter</h4>
-            <p className="text-gray-400 mb-4">Subscribe to get updates about our products</p>
-            <form className="flex">
-              <input
-                type="email"
-                placeholder="Your email"
-                className="flex-1 px-4 py-2 rounded-l-lg focus:outline-none text-gray-900"
-              />
-              <button className="bg-[#4a9f45] px-4 py-2 rounded-r-lg hover:bg-[#3d8438]">
-                Subscribe
-              </button>
-            </form>
-          </div>
+         
         </div>
         <div className="border-t border-gray-800 pt-8 mt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 text-sm">
