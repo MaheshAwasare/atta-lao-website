@@ -99,10 +99,11 @@ const Shop = () => {
       
       {isModalOpen && (
         <RegisterModal 
-          isOpen={isModalOpen} 
+          isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-          product={selectedProduct}
-        />
+          product={selectedProduct} onLoginSuccess={function (): void {
+            throw new Error('Function not implemented.');
+          } }        />
       )}
     </>
   );
