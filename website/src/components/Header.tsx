@@ -2,7 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Menu, X, User, MapPin, Package, LogOut } from 'lucide-react';
 import RegisterModal from './RegistrationModal';
 
-const Header = () => {
+interface HeaderProps {
+  onViewChange: (view: 'main' | 'addresses' | 'orders') => void;
+}
+
+const Header: React.FC<HeaderProps> = ({ onViewChange }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -30,6 +34,7 @@ const Header = () => {
     localStorage.removeItem('deviceId');
     setIsLoggedIn(false);
     setIsProfileMenuOpen(false);
+    onViewChange('main');
   };
 
   const handleLoginSuccess = () => {
@@ -37,12 +42,22 @@ const Header = () => {
     setIsRegisterModalOpen(false);
   };
 
+  const handleNavigation = (view: 'main' | 'addresses' | 'orders') => {
+    onViewChange(view);
+    setIsProfileMenuOpen(false);
+    setIsMenuOpen(false);
+  };
+
   return (
     <>
       <header className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm z-50 shadow-sm">
         <nav className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <a href="#" className="flex items-center space-x-2">
+            <a 
+              href="#" 
+              className="flex items-center space-x-2"
+              onClick={() => handleNavigation('main')}
+            >
               <img
                 src="/images/atta_lao_logo.png"
                 alt="AttaLao Logo"
@@ -58,6 +73,7 @@ const Header = () => {
                   key={item.label}
                   href={item.href}
                   className="text-gray-600 hover:text-[#4a9f45] transition-colors"
+                  onClick={() => handleNavigation('main')}
                 >
                   {item.label}
                 </a>
@@ -73,20 +89,20 @@ const Header = () => {
                   </button>
                   {isProfileMenuOpen && (
                     <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50">
-                      <a
-                        href="#addresses"
-                        className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      <button
+                        onClick={() => handleNavigation('addresses')}
+                        className="flex items-center w-full px-4 py-2 text-gray-700 hover:bg-gray-100"
                       >
                         <MapPin size={16} className="mr-2" />
                         Addresses
-                      </a>
-                      <a
-                        href="#orders"
-                        className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      </button>
+                      <button
+                        onClick={() => handleNavigation('orders')}
+                        className="flex items-center w-full px-4 py-2 text-gray-700 hover:bg-gray-100"
                       >
                         <Package size={16} className="mr-2" />
                         Orders
-                      </a>
+                      </button>
                       <button
                         onClick={handleLogout}
                         className="flex items-center w-full px-4 py-2 text-gray-700 hover:bg-gray-100"
@@ -124,28 +140,31 @@ const Header = () => {
                   key={item.label}
                   href={item.href}
                   className="block py-2 text-gray-600 hover:text-[#4a9f45] transition-colors"
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    handleNavigation('main');
+                  }}
                 >
                   {item.label}
                 </a>
               ))}
               {isLoggedIn ? (
                 <>
-                  <a
-                    href="#addresses"
-                    className="block py-2 text-gray-600 hover:text-[#4a9f45] transition-colors"
+                  <button
+                    onClick={() => handleNavigation('addresses')}
+                    className="block w-full text-left py-2 text-gray-600 hover:text-[#4a9f45] transition-colors"
                   >
                     Addresses
-                  </a>
-                  <a
-                    href="#orders"
-                    className="block py-2 text-gray-600 hover:text-[#4a9f45] transition-colors"
+                  </button>
+                  <button
+                    onClick={() => handleNavigation('orders')}
+                    className="block w-full text-left py-2 text-gray-600 hover:text-[#4a9f45] transition-colors"
                   >
                     Orders
-                  </a>
+                  </button>
                   <button
                     onClick={handleLogout}
-                    className="w-full mt-2 text-left py-2 text-gray-600 hover:text-[#4a9f45] transition-colors"
+                    className="block w-full text-left py-2 text-gray-600 hover:text-[#4a9f45] transition-colors"
                   >
                     Logout
                   </button>
